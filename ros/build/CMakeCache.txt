@@ -554,7 +554,7 @@ xmlrpcpp_DIR:PATH=/opt/ros/kinetic/share/xmlrpcpp/cmake
 
 //catkin environment
 CATKIN_ENV:INTERNAL=/home/workspace/T2-CarND-Capstone/ros/build/catkin_generated/env_cached.sh
-CATKIN_TEST_RESULTS_DIR:INTERNAL=/home/workspace/T2-CapstoneProject/ros/build/test_results
+CATKIN_TEST_RESULTS_DIR:INTERNAL=/home/workspace/T2-CarND-Capstone/ros/build/test_results
 //ADVANCED property for variable: CMAKE_AR
 CMAKE_AR-ADVANCED:INTERNAL=1
 //This is the directory where this CMakeCache.txt was created
@@ -639,7 +639,7 @@ CMAKE_HAVE_PTHREAD_CREATE:INTERNAL=1
 CMAKE_HAVE_PTHREAD_H:INTERNAL=1
 //Source directory with the top level CMakeLists.txt file for this
 // project
-CMAKE_HOME_DIRECTORY:INTERNAL=/home/workspace/T2-CapstoneProject/ros/src
+CMAKE_HOME_DIRECTORY:INTERNAL=/home/workspace/T2-CarND-Capstone/ros/src
 //Install .so files without execute permission.
 CMAKE_INSTALL_SO_NO_EXE:INTERNAL=1
 //ADVANCED property for variable: CMAKE_LINKER

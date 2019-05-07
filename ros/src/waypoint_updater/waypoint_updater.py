@@ -22,7 +22,7 @@ TODO (for Yousuf and Aaron): Stopline location for each traffic light.
 
 LOOKAHEAD_WPS = 200 # Number of waypoints we will publish.
 LOOKAHEAD_FILTER = [0, 1, 2, 3, 4, 5, 6, 7, 8, 10, 12, 16, 20, 28, 36, 52, 68, 100, 132, 196]
-CENTER_TO_LANE_BUFFER = 4
+CENTER_TO_LANE_BUFFER = 6
 MAX_DECEL = 0.5 # Max deceleration
 FREQUENCY = 50 # 50Hz
 
