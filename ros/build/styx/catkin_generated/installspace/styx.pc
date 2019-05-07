@@ -1,0 +1,8 @@
+prefix=/home/workspace/T2-CapstoneProject/ros/install
+
+Name: styx
+Description: Description of styx
+Version: 0.0.0
+Cflags: 
+Libs: -L/home/workspace/T2-CapstoneProject/ros/install/lib 
+Requires: 

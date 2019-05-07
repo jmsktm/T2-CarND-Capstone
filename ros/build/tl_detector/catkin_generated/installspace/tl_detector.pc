@@ -1,0 +1,8 @@
+prefix=/home/workspace/T2-CapstoneProject/ros/install
+
+Name: tl_detector
+Description: Description of tl_detector
+Version: 0.0.0
+Cflags: 
+Libs: -L/home/workspace/T2-CapstoneProject/ros/install/lib 
+Requires: 
