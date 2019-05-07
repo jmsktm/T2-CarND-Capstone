@@ -43,10 +43,10 @@ RM = /usr/local/bin/cmake -E remove -f
 EQUALS = =
 
 # The top-level source directory on which CMake was run.
-CMAKE_SOURCE_DIR = /home/workspace/T2-CapstoneProject/ros/src
+CMAKE_SOURCE_DIR = /home/workspace/T2-CarND-Capstone/ros/src
 
 # The top-level build directory on which CMake was run.
-CMAKE_BINARY_DIR = /home/workspace/T2-CapstoneProject/ros/build
+CMAKE_BINARY_DIR = /home/workspace/T2-CarND-Capstone/ros/build
 
 # Utility rule file for dbw_mkz_msgs_generate_messages_py.
 
@@ -63,10 +63,10 @@ styx/CMakeFiles/dbw_mkz_msgs_generate_messages_py.dir/build: dbw_mkz_msgs_genera
 .PHONY : styx/CMakeFiles/dbw_mkz_msgs_generate_messages_py.dir/build
 
 styx/CMakeFiles/dbw_mkz_msgs_generate_messages_py.dir/clean:
-	cd /home/workspace/T2-CapstoneProject/ros/build/styx && $(CMAKE_COMMAND) -P CMakeFiles/dbw_mkz_msgs_generate_messages_py.dir/cmake_clean.cmake
+	cd /home/workspace/T2-CarND-Capstone/ros/build/styx && $(CMAKE_COMMAND) -P CMakeFiles/dbw_mkz_msgs_generate_messages_py.dir/cmake_clean.cmake
 .PHONY : styx/CMakeFiles/dbw_mkz_msgs_generate_messages_py.dir/clean
 
 styx/CMakeFiles/dbw_mkz_msgs_generate_messages_py.dir/depend:
-	cd /home/workspace/T2-CapstoneProject/ros/build && $(CMAKE_COMMAND) -E cmake_depends "Unix Makefiles" /home/workspace/T2-CapstoneProject/ros/src /home/workspace/T2-CapstoneProject/ros/src/styx /home/workspace/T2-CapstoneProject/ros/build /home/workspace/T2-CapstoneProject/ros/build/styx /home/workspace/T2-CapstoneProject/ros/build/styx/CMakeFiles/dbw_mkz_msgs_generate_messages_py.dir/DependInfo.cmake --color=$(COLOR)
+	cd /home/workspace/T2-CarND-Capstone/ros/build && $(CMAKE_COMMAND) -E cmake_depends "Unix Makefiles" /home/workspace/T2-CarND-Capstone/ros/src /home/workspace/T2-CarND-Capstone/ros/src/styx /home/workspace/T2-CarND-Capstone/ros/build /home/workspace/T2-CarND-Capstone/ros/build/styx /home/workspace/T2-CarND-Capstone/ros/build/styx/CMakeFiles/dbw_mkz_msgs_generate_messages_py.dir/DependInfo.cmake --color=$(COLOR)
 .PHONY : styx/CMakeFiles/dbw_mkz_msgs_generate_messages_py.dir/depend
 

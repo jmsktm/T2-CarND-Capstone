@@ -1,8 +1,8 @@
-# Install script for directory: /home/workspace/T2-CapstoneProject/ros/src/waypoint_updater
+# Install script for directory: /home/workspace/T2-CarND-Capstone/ros/src/waypoint_updater
 
 # Set the install prefix
 if(NOT DEFINED CMAKE_INSTALL_PREFIX)
-  set(CMAKE_INSTALL_PREFIX "/home/workspace/T2-CapstoneProject/ros/install")
+  set(CMAKE_INSTALL_PREFIX "/home/workspace/T2-CarND-Capstone/ros/install")
 endif()
 string(REGEX REPLACE "/$" "" CMAKE_INSTALL_PREFIX "${CMAKE_INSTALL_PREFIX}")
 
@@ -38,17 +38,17 @@ if(NOT DEFINED CMAKE_CROSSCOMPILING)
 endif()
 
 if("x${CMAKE_INSTALL_COMPONENT}x" STREQUAL "xUnspecifiedx" OR NOT CMAKE_INSTALL_COMPONENT)
-  file(INSTALL DESTINATION "${CMAKE_INSTALL_PREFIX}/lib/pkgconfig" TYPE FILE FILES "/home/workspace/T2-CapstoneProject/ros/build/waypoint_updater/catkin_generated/installspace/waypoint_updater.pc")
+  file(INSTALL DESTINATION "${CMAKE_INSTALL_PREFIX}/lib/pkgconfig" TYPE FILE FILES "/home/workspace/T2-CarND-Capstone/ros/build/waypoint_updater/catkin_generated/installspace/waypoint_updater.pc")
 endif()
 
 if("x${CMAKE_INSTALL_COMPONENT}x" STREQUAL "xUnspecifiedx" OR NOT CMAKE_INSTALL_COMPONENT)
   file(INSTALL DESTINATION "${CMAKE_INSTALL_PREFIX}/share/waypoint_updater/cmake" TYPE FILE FILES
-    "/home/workspace/T2-CapstoneProject/ros/build/waypoint_updater/catkin_generated/installspace/waypoint_updaterConfig.cmake"
-    "/home/workspace/T2-CapstoneProject/ros/build/waypoint_updater/catkin_generated/installspace/waypoint_updaterConfig-version.cmake"
+    "/home/workspace/T2-CarND-Capstone/ros/build/waypoint_updater/catkin_generated/installspace/waypoint_updaterConfig.cmake"
+    "/home/workspace/T2-CarND-Capstone/ros/build/waypoint_updater/catkin_generated/installspace/waypoint_updaterConfig-version.cmake"
     )
 endif()
 
 if("x${CMAKE_INSTALL_COMPONENT}x" STREQUAL "xUnspecifiedx" OR NOT CMAKE_INSTALL_COMPONENT)
-  file(INSTALL DESTINATION "${CMAKE_INSTALL_PREFIX}/share/waypoint_updater" TYPE FILE FILES "/home/workspace/T2-CapstoneProject/ros/src/waypoint_updater/package.xml")
+  file(INSTALL DESTINATION "${CMAKE_INSTALL_PREFIX}/share/waypoint_updater" TYPE FILE FILES "/home/workspace/T2-CarND-Capstone/ros/src/waypoint_updater/package.xml")
 endif()
 

@@ -1,8 +1,8 @@
-# Install script for directory: /home/workspace/T2-CapstoneProject/ros/src/camera_info_publisher
+# Install script for directory: /home/workspace/T2-CarND-Capstone/ros/src/camera_info_publisher
 
 # Set the install prefix
 if(NOT DEFINED CMAKE_INSTALL_PREFIX)
-  set(CMAKE_INSTALL_PREFIX "/home/workspace/T2-CapstoneProject/ros/install")
+  set(CMAKE_INSTALL_PREFIX "/home/workspace/T2-CarND-Capstone/ros/install")
 endif()
 string(REGEX REPLACE "/$" "" CMAKE_INSTALL_PREFIX "${CMAKE_INSTALL_PREFIX}")
 
@@ -38,17 +38,17 @@ if(NOT DEFINED CMAKE_CROSSCOMPILING)
 endif()
 
 if("x${CMAKE_INSTALL_COMPONENT}x" STREQUAL "xUnspecifiedx" OR NOT CMAKE_INSTALL_COMPONENT)
-  file(INSTALL DESTINATION "${CMAKE_INSTALL_PREFIX}/lib/pkgconfig" TYPE FILE FILES "/home/workspace/T2-CapstoneProject/ros/build/camera_info_publisher/catkin_generated/installspace/camera_info_publisher.pc")
+  file(INSTALL DESTINATION "${CMAKE_INSTALL_PREFIX}/lib/pkgconfig" TYPE FILE FILES "/home/workspace/T2-CarND-Capstone/ros/build/camera_info_publisher/catkin_generated/installspace/camera_info_publisher.pc")
 endif()
 
 if("x${CMAKE_INSTALL_COMPONENT}x" STREQUAL "xUnspecifiedx" OR NOT CMAKE_INSTALL_COMPONENT)
   file(INSTALL DESTINATION "${CMAKE_INSTALL_PREFIX}/share/camera_info_publisher/cmake" TYPE FILE FILES
-    "/home/workspace/T2-CapstoneProject/ros/build/camera_info_publisher/catkin_generated/installspace/camera_info_publisherConfig.cmake"
-    "/home/workspace/T2-CapstoneProject/ros/build/camera_info_publisher/catkin_generated/installspace/camera_info_publisherConfig-version.cmake"
+    "/home/workspace/T2-CarND-Capstone/ros/build/camera_info_publisher/catkin_generated/installspace/camera_info_publisherConfig.cmake"
+    "/home/workspace/T2-CarND-Capstone/ros/build/camera_info_publisher/catkin_generated/installspace/camera_info_publisherConfig-version.cmake"
     )
 endif()
 
 if("x${CMAKE_INSTALL_COMPONENT}x" STREQUAL "xUnspecifiedx" OR NOT CMAKE_INSTALL_COMPONENT)
-  file(INSTALL DESTINATION "${CMAKE_INSTALL_PREFIX}/share/camera_info_publisher" TYPE FILE FILES "/home/workspace/T2-CapstoneProject/ros/src/camera_info_publisher/package.xml")
+  file(INSTALL DESTINATION "${CMAKE_INSTALL_PREFIX}/share/camera_info_publisher" TYPE FILE FILES "/home/workspace/T2-CarND-Capstone/ros/src/camera_info_publisher/package.xml")
 endif()
 

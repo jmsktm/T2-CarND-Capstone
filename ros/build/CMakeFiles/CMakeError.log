@@ -50,6 +50,7 @@ CMakeFiles/cmTC_3b54d.dir/build.make:86: recipe for target 'cmTC_3b54d' failed
 make[1]: *** [cmTC_3b54d] Error 1
 make[1]: Leaving directory '/home/workspace/T2-CapstoneProject/ros/build/CMakeFiles/CMakeTmp'
 Makefile:121: recipe for target 'cmTC_3b54d/fast' failed
+
 make: *** [cmTC_3b54d/fast] Error 2
 
 

@@ -43,10 +43,10 @@ RM = /usr/local/bin/cmake -E remove -f
 EQUALS = =
 
 # The top-level source directory on which CMake was run.
-CMAKE_SOURCE_DIR = /home/workspace/T2-CapstoneProject/ros/src
+CMAKE_SOURCE_DIR = /home/workspace/T2-CarND-Capstone/ros/src
 
 # The top-level build directory on which CMake was run.
-CMAKE_BINARY_DIR = /home/workspace/T2-CapstoneProject/ros/build
+CMAKE_BINARY_DIR = /home/workspace/T2-CarND-Capstone/ros/build
 
 # Utility rule file for geometry_msgs_generate_messages_nodejs.
 
@@ -63,10 +63,10 @@ styx/CMakeFiles/geometry_msgs_generate_messages_nodejs.dir/build: geometry_msgs_
 .PHONY : styx/CMakeFiles/geometry_msgs_generate_messages_nodejs.dir/build
 
 styx/CMakeFiles/geometry_msgs_generate_messages_nodejs.dir/clean:
-	cd /home/workspace/T2-CapstoneProject/ros/build/styx && $(CMAKE_COMMAND) -P CMakeFiles/geometry_msgs_generate_messages_nodejs.dir/cmake_clean.cmake
+	cd /home/workspace/T2-CarND-Capstone/ros/build/styx && $(CMAKE_COMMAND) -P CMakeFiles/geometry_msgs_generate_messages_nodejs.dir/cmake_clean.cmake
 .PHONY : styx/CMakeFiles/geometry_msgs_generate_messages_nodejs.dir/clean
 
 styx/CMakeFiles/geometry_msgs_generate_messages_nodejs.dir/depend:
-	cd /home/workspace/T2-CapstoneProject/ros/build && $(CMAKE_COMMAND) -E cmake_depends "Unix Makefiles" /home/workspace/T2-CapstoneProject/ros/src /home/workspace/T2-CapstoneProject/ros/src/styx /home/workspace/T2-CapstoneProject/ros/build /home/workspace/T2-CapstoneProject/ros/build/styx /home/workspace/T2-CapstoneProject/ros/build/styx/CMakeFiles/geometry_msgs_generate_messages_nodejs.dir/DependInfo.cmake --color=$(COLOR)
+	cd /home/workspace/T2-CarND-Capstone/ros/build && $(CMAKE_COMMAND) -E cmake_depends "Unix Makefiles" /home/workspace/T2-CarND-Capstone/ros/src /home/workspace/T2-CarND-Capstone/ros/src/styx /home/workspace/T2-CarND-Capstone/ros/build /home/workspace/T2-CarND-Capstone/ros/build/styx /home/workspace/T2-CarND-Capstone/ros/build/styx/CMakeFiles/geometry_msgs_generate_messages_nodejs.dir/DependInfo.cmake --color=$(COLOR)
 .PHONY : styx/CMakeFiles/geometry_msgs_generate_messages_nodejs.dir/depend
 

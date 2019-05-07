@@ -1,8 +1,8 @@
-# Install script for directory: /home/workspace/T2-CapstoneProject/ros/src/twist_controller
+# Install script for directory: /home/workspace/T2-CarND-Capstone/ros/src/twist_controller
 
 # Set the install prefix
 if(NOT DEFINED CMAKE_INSTALL_PREFIX)
-  set(CMAKE_INSTALL_PREFIX "/home/workspace/T2-CapstoneProject/ros/install")
+  set(CMAKE_INSTALL_PREFIX "/home/workspace/T2-CarND-Capstone/ros/install")
 endif()
 string(REGEX REPLACE "/$" "" CMAKE_INSTALL_PREFIX "${CMAKE_INSTALL_PREFIX}")
 
@@ -38,17 +38,17 @@ if(NOT DEFINED CMAKE_CROSSCOMPILING)
 endif()
 
 if("x${CMAKE_INSTALL_COMPONENT}x" STREQUAL "xUnspecifiedx" OR NOT CMAKE_INSTALL_COMPONENT)
-  file(INSTALL DESTINATION "${CMAKE_INSTALL_PREFIX}/lib/pkgconfig" TYPE FILE FILES "/home/workspace/T2-CapstoneProject/ros/build/twist_controller/catkin_generated/installspace/twist_controller.pc")
+  file(INSTALL DESTINATION "${CMAKE_INSTALL_PREFIX}/lib/pkgconfig" TYPE FILE FILES "/home/workspace/T2-CarND-Capstone/ros/build/twist_controller/catkin_generated/installspace/twist_controller.pc")
 endif()
 
 if("x${CMAKE_INSTALL_COMPONENT}x" STREQUAL "xUnspecifiedx" OR NOT CMAKE_INSTALL_COMPONENT)
   file(INSTALL DESTINATION "${CMAKE_INSTALL_PREFIX}/share/twist_controller/cmake" TYPE FILE FILES
-    "/home/workspace/T2-CapstoneProject/ros/build/twist_controller/catkin_generated/installspace/twist_controllerConfig.cmake"
-    "/home/workspace/T2-CapstoneProject/ros/build/twist_controller/catkin_generated/installspace/twist_controllerConfig-version.cmake"
+    "/home/workspace/T2-CarND-Capstone/ros/build/twist_controller/catkin_generated/installspace/twist_controllerConfig.cmake"
+    "/home/workspace/T2-CarND-Capstone/ros/build/twist_controller/catkin_generated/installspace/twist_controllerConfig-version.cmake"
     )
 endif()
 
 if("x${CMAKE_INSTALL_COMPONENT}x" STREQUAL "xUnspecifiedx" OR NOT CMAKE_INSTALL_COMPONENT)
-  file(INSTALL DESTINATION "${CMAKE_INSTALL_PREFIX}/share/twist_controller" TYPE FILE FILES "/home/workspace/T2-CapstoneProject/ros/src/twist_controller/package.xml")
+  file(INSTALL DESTINATION "${CMAKE_INSTALL_PREFIX}/share/twist_controller" TYPE FILE FILES "/home/workspace/T2-CarND-Capstone/ros/src/twist_controller/package.xml")
 endif()
 

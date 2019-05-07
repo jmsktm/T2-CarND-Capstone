@@ -1,8 +1,8 @@
-prefix=/home/workspace/T2-CapstoneProject/ros/install
+prefix=/home/workspace/T2-CarND-Capstone/ros/install
 
 Name: twist_controller
 Description: Description of twist_controller
 Version: 0.0.0
 Cflags: 
-Libs: -L/home/workspace/T2-CapstoneProject/ros/install/lib 
+Libs: -L/home/workspace/T2-CarND-Capstone/ros/install/lib 
 Requires: 

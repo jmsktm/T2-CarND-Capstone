@@ -1,2 +1,2 @@
 - setup-file:
-    local-name: /home/workspace/T2-CapstoneProject/ros/devel/setup.sh
+    local-name: /home/workspace/T2-CarND-Capstone/ros/devel/setup.sh

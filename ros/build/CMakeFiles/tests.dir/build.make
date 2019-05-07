@@ -43,10 +43,10 @@ RM = /usr/local/bin/cmake -E remove -f
 EQUALS = =
 
 # The top-level source directory on which CMake was run.
-CMAKE_SOURCE_DIR = /home/workspace/T2-CapstoneProject/ros/src
+CMAKE_SOURCE_DIR = /home/workspace/T2-CarND-Capstone/ros/src
 
 # The top-level build directory on which CMake was run.
-CMAKE_BINARY_DIR = /home/workspace/T2-CapstoneProject/ros/build
+CMAKE_BINARY_DIR = /home/workspace/T2-CarND-Capstone/ros/build
 
 # Utility rule file for tests.
 
@@ -67,6 +67,6 @@ CMakeFiles/tests.dir/clean:
 .PHONY : CMakeFiles/tests.dir/clean
 
 CMakeFiles/tests.dir/depend:
-	cd /home/workspace/T2-CapstoneProject/ros/build && $(CMAKE_COMMAND) -E cmake_depends "Unix Makefiles" /home/workspace/T2-CapstoneProject/ros/src /home/workspace/T2-CapstoneProject/ros/src /home/workspace/T2-CapstoneProject/ros/build /home/workspace/T2-CapstoneProject/ros/build /home/workspace/T2-CapstoneProject/ros/build/CMakeFiles/tests.dir/DependInfo.cmake --color=$(COLOR)
+	cd /home/workspace/T2-CarND-Capstone/ros/build && $(CMAKE_COMMAND) -E cmake_depends "Unix Makefiles" /home/workspace/T2-CarND-Capstone/ros/src /home/workspace/T2-CarND-Capstone/ros/src /home/workspace/T2-CarND-Capstone/ros/build /home/workspace/T2-CarND-Capstone/ros/build /home/workspace/T2-CarND-Capstone/ros/build/CMakeFiles/tests.dir/DependInfo.cmake --color=$(COLOR)
 .PHONY : CMakeFiles/tests.dir/depend
 
