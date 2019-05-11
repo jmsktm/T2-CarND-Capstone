@@ -80,7 +80,7 @@ class TLDetector(object):
         if self.ready:
             start = time.time();
             self.ready = False
-            print('Not ready')
+            rospy.loginfo('Not ready')
 
             self.has_image = True
             self.camera_image = msg
@@ -105,11 +105,11 @@ class TLDetector(object):
             self.state_count += 1
 
             self.ready = True
-            print('Ready')
+            rospy.loginfo('Ready')
             end = time.time();
 
             duration = (end - start) * 1000
-            print('Duration: ', str(duration))
+            rospy.loginfo('Duration: ', str(duration))
 
     def get_closest_waypoint(self, x, y):
         """Identifies the closest path waypoint to the given position

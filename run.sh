@@ -1,5 +1,5 @@
 #!/bin/bash
 
-docker build . -t capstone
+docker build . -t capstone --no-cache
 docker run -p 4567:4567 -v $PWD:/capstone -v /tmp/log:/root/.ros/ --rm -it capstone
 
