@@ -28,6 +28,15 @@ FREQUENCY = 50 # 50Hz
 
 
 class WaypointUpdater(object):
+
+    def now(self):
+        return str(datetime.now().strftime('%I:%M:%S.%f'))
+
+    def log(self, msg):
+        f = open("/home/james/github/udacity/jmsktm/T2-CarND-Capstone/master.log","w+")
+        f.write('{} [waypoint_updater]: {}\n'.format(self.now(), msg))
+        f.close()
+
     def __init__(self):
         rospy.init_node('waypoint_updater')
 

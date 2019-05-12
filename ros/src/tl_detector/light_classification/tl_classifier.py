@@ -14,7 +14,7 @@ class TLClassifier(object):
         return str(datetime.now().strftime('%I:%M:%S.%f'))
 
     def log(self, msg):
-        f = open("/home/james/github/udacity/jmsktm/T2-CarND-Capstone/master.log","w+")
+        f = open("/home/james/github/udacity/jmsktm/T2-CarND-Capstone/master.log","w+") # TODO: Un-hardcode this!
         f.write('{} [tl_classifier]: {}\n'.format(self.now(), msg))
         f.close()
 
@@ -80,7 +80,7 @@ class TLClassifier(object):
         time_colon = str(current_time.strftime('%I:%M:%S.%f'))
         time_dashed = str(current_time.strftime('%I-%M-%S-%f'))
         result = { "time": { "colon": time_colon, "dashed": time_dashed } }
-        filename = '/home/james/github/udacity/jmsktm/T2-CarND-Capstone/images/img-{}.jpg'.format(result["time"]["dashed"])
+        filename = '/home/james/github/udacity/jmsktm/T2-CarND-Capstone/images/img-{}.jpg'.format(result["time"]["dashed"]) # TODO: Un-hardcode this!
         result["filename"] = filename
         """Determines the color of the traffic light in the image
 
@@ -146,11 +146,7 @@ class TLClassifier(object):
                 xmax1 = int(xmax * width)
                 ymax1 = int(ymax * height)
                 score = round(scores[i], 2)
-                cv2.rectangle(image,(xmin1, ymin1),(xmax1, ymax1), (0,0,255), 2)
                 arr.append({ "xmin": xmin1, "ymin": ymin1, "xmax": xmax1, "ymax": ymax1, "score": score })
-
-                confidence = '{}%'.format(score)
-                cv2.putText(image, confidence, (xmin1+10, ymin1+10), cv2.FONT_HERSHEY_SIMPLEX, 0.5, (255,255,255), 1, cv2.LINE_AA)
 
         result["boxes"] = arr
 
@@ -178,9 +174,5 @@ class TLClassifier(object):
             "green": { "count": green_count, "sum": green_sum, "average": green_average },
             "final": { "color": light_color, "average": average, "state": self.current_light }
         }
-        # self.log(json.dumps(result))
-        
-        # cv2.imwrite(filename, image)
 
-        # return self.current_light
         return result

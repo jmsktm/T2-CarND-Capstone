@@ -25,9 +25,10 @@ class TLDetector(object):
         return str(datetime.now().strftime('%I:%M:%S.%f'))
 
     def log(self, msg):
-        f = open("/home/james/github/udacity/jmsktm/T2-CarND-Capstone/master.log","w+")
-        f.write('{} [tl_detector]: {}\n'.format(self.now(), msg))
-        f.close()
+        if self.debug_mode:
+            f = open("/home/james/github/udacity/jmsktm/T2-CarND-Capstone/master.log","w+") # TODO: Un-hardcode this!
+            f.write('{} [tl_detector]: {}\n'.format(self.now(), msg))
+            f.close()
 
     def __init__(self):
         rospy.init_node('tl_detector')
@@ -58,7 +59,7 @@ class TLDetector(object):
         self.upcoming_red_light_pub = rospy.Publisher('/traffic_waypoint', Int32, queue_size=1)
 
         self.bridge = CvBridge()
-        #self.light_classifier = TLClassifier()
+        self.debug_mode = rospy.get_param('~debug_mode')
         self.light_classifier = TLClassifier(rospy.get_param('~model_file'))
         self.listener = tf.TransformListener()
 
@@ -175,26 +176,27 @@ class TLDetector(object):
         return classification
 
     def write_image(self, data):
-        filename = data["filename"]
-        cv_image = self.bridge.imgmsg_to_cv2(self.camera_image, "bgr8")
-        dt = data["time"]["colon"]
-        light_color = data["lights"]["final"]["color"]
-        average = data["lights"]["final"]["average"]
+        if self.debug_mode:
+            filename = data["filename"]
+            cv_image = self.bridge.imgmsg_to_cv2(self.camera_image, "bgr8")
+            dt = data["time"]["colon"]
+            light_color = data["lights"]["final"]["color"]
+            average = data["lights"]["final"]["average"]
 
-        for box in data["boxes"]:
-            xmin = box["xmin"]
-            ymin = box["ymin"]
-            xmax = box["xmax"]
-            ymax = box["ymax"]
-            score = box["score"]
-            cv2.rectangle(cv_image, (xmin, ymin), (xmax, ymax), (0, 0, 255), 2)
+            for box in data["boxes"]:
+                xmin = box["xmin"]
+                ymin = box["ymin"]
+                xmax = box["xmax"]
+                ymax = box["ymax"]
+                score = box["score"]
+                cv2.rectangle(cv_image, (xmin, ymin), (xmax, ymax), (0, 0, 255), 2)
 
-            confidence = '{}%'.format(score)
-            cv2.putText(cv_image, confidence, (xmin+10, ymin+10), cv2.FONT_HERSHEY_SIMPLEX, 0.5, (255,255,255), 1, cv2.LINE_AA)
+                confidence = '{}%'.format(score)
+                cv2.putText(cv_image, confidence, (xmin+10, ymin+10), cv2.FONT_HERSHEY_SIMPLEX, 0.5, (255,255,255), 1, cv2.LINE_AA)
 
-        text = '{} / {} ({})'.format(dt, light_color, average)
-        cv2.putText(cv_image, text, (20, 20), cv2.FONT_HERSHEY_SIMPLEX, 1, (255,255,255), 2, cv2.LINE_AA)
-        cv2.imwrite(filename, cv_image)
+            text = '{} / {} ({})'.format(dt, light_color, average)
+            cv2.putText(cv_image, text, (20, 20), cv2.FONT_HERSHEY_SIMPLEX, 1, (255,255,255), 2, cv2.LINE_AA)
+            cv2.imwrite(filename, cv_image)
 
     def process_traffic_lights(self):
         """Finds closest visible traffic light, if one exists, and determines its
