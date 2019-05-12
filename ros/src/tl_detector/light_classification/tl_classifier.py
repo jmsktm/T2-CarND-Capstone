@@ -59,8 +59,21 @@ class TLClassifier(object):
         self.num_detections = self.detection_graph.get_tensor_by_name('num_detections:0')
 
     """
-    Sample data:
-    {"lights": {"green": {"count": 0, "sum": 0.0, "average": 0.0}, "final": {"color": "RED", "average": 0.99, "state": 0}, "red": {"count": 3, "sum": 2.98, "average": 0.99492553869883216}}, "boxes": [{"xmin": 375, "ymin": 101, "ymax": 279, "xmax": 462}, {"xmin": 731, "ymin": 107, "ymax": 291, "xmax": 800}, {"xmin": 21, "ymin": 95, "ymax": 277, "xmax": 105}], "filename": "/home/james/github/udacity/jmsktm/T2-CarND-Capstone/images/img-01-16-57-871316.jpg", "time": {"dashed": "01-16-57-871316", "colon": "01:16:57.871316"}}
+    Sample response (some fields are added later):
+    {
+        "lights": {
+            "green": {"count": 2, "sum": 1.98, "average": 0.99202722311019897},
+            "red": {"count": 0, "sum": 0.0, "average": 0.0},
+            "final": {"color": "GREEN", "average": 0.99, "state": 2}
+        },
+        "boxes": [
+            {"xmin": 312, "score": 0.99, "ymin": 122, "ymax": 287, "xmax": 393},
+            {"xmin": 652, "score": 0.99, "ymin": 140, "ymax": 295, "xmax": 731}
+        ],
+        "filename": "/home/james/github/udacity/jmsktm/T2-CarND-Capstone/images/img-01-49-57-974795.jpg",
+        "waypoints": {"current": 747, "traffic_light": 753},
+        "time": {"dashed": "01-49-57-974795", "colon": "01:49:57.974795"}
+    }
     """
     def get_classification(self, image):
         current_time = datetime.now()
@@ -132,10 +145,11 @@ class TLClassifier(object):
                 ymin1 = int(ymin * height)
                 xmax1 = int(xmax * width)
                 ymax1 = int(ymax * height)
+                score = round(scores[i], 2)
                 cv2.rectangle(image,(xmin1, ymin1),(xmax1, ymax1), (0,0,255), 2)
-                arr.append({ "xmin": xmin1, "ymin": ymin1, "xmax": xmax1, "ymax": ymax1 })
+                arr.append({ "xmin": xmin1, "ymin": ymin1, "xmax": xmax1, "ymax": ymax1, "score": score })
 
-                confidence = '{}%'.format(round(scores[i],2))
+                confidence = '{}%'.format(score)
                 cv2.putText(image, confidence, (xmin1+10, ymin1+10), cv2.FONT_HERSHEY_SIMPLEX, 0.5, (255,255,255), 1, cv2.LINE_AA)
 
         result["boxes"] = arr

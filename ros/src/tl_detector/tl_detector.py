@@ -186,7 +186,11 @@ class TLDetector(object):
             ymin = box["ymin"]
             xmax = box["xmax"]
             ymax = box["ymax"]
+            score = box["score"]
             cv2.rectangle(cv_image, (xmin, ymin), (xmax, ymax), (0, 0, 255), 2)
+
+            confidence = '{}%'.format(score)
+            cv2.putText(cv_image, confidence, (xmin+10, ymin+10), cv2.FONT_HERSHEY_SIMPLEX, 0.5, (255,255,255), 1, cv2.LINE_AA)
 
         text = '{} / {} ({})'.format(dt, light_color, average)
         cv2.putText(cv_image, text, (20, 20), cv2.FONT_HERSHEY_SIMPLEX, 1, (255,255,255), 2, cv2.LINE_AA)
@@ -225,7 +229,12 @@ class TLDetector(object):
         if closest_light:
             self.log('Approaching Traffic light. Detecting light state')
             data = self.get_light_state(closest_light)
+            data["waypoints"] = {
+                "traffic_light": line_wp_idx,
+                "current": car_wp_idx
+            }
             self.log(json.dumps(data))
+            self.log("***** {} *****".format(data["lights"]["final"]["color"]))
             self.write_image(data)
             return line_wp_idx, data["lights"]["final"]["state"]
 
