@@ -5,13 +5,19 @@ import rospy
 import tensorflow as tf
 from styx_msgs.msg import TrafficLight
 import time
-
+from datetime import datetime
 
 class TLClassifier(object):
 
+    def now(self):
+        return str(datetime.now().strftime('%I:%M:%S.%f'))
+
+    def now_dashed(self):
+        return str(datetime.now().strftime('%I-%M-%S-%f'))
+
     def log(self, msg):
-        f = open("tl_classifier.log","w+")
-        f.write(msg + "\n")
+        f = open("/home/james/github/udacity/jmsktm/T2-CarND-Capstone/master.log","w+")
+        f.write('{} [tl_classifier]: {}\n'.format(self.now(), msg))
         f.close()
 
     #def __init__(self):
@@ -55,7 +61,6 @@ class TLClassifier(object):
         self.num_detections = self.detection_graph.get_tensor_by_name('num_detections:0')
 
     def get_classification(self, image):
-        self.log('logging from classifier')
         """Determines the color of the traffic light in the image
 
         Args:
@@ -82,10 +87,11 @@ class TLClassifier(object):
         scores = np.squeeze(scores)
         classes = np.squeeze(classes).astype(np.int32)
 
-        min_score_thresh = .5
+        min_score_thresh = .85
         count = 0
         count1 = 0
-        # print(scores)
+
+        height, width, channels = image.shape
 
         for i in range(boxes.shape[0]):
             if scores is None or scores[i] > min_score_thresh:
@@ -96,28 +102,31 @@ class TLClassifier(object):
                 if class_name == 'Red':
                     count += 1
 
+                box = boxes[i]
+                ymin, xmin, ymax, xmax = box
+                
+                xmin1 = int(xmin * width)
+                ymin1 = int(ymin * height)
+                xmax1 = int(xmax * width)
+                ymax1 = int(ymax * height)
+                cv2.rectangle(image,(xmin1, ymin1),(xmax1, ymax1), (0,0,255), 2)
+
+                confidence = '{}%'.format(round(scores[i],2))
+                cv2.putText(image, confidence, (xmin1+10, ymin1+10), cv2.FONT_HERSHEY_SIMPLEX, 0.5, (255,255,255), 1, cv2.LINE_AA)
+
         # print(count)
-        text = '~'
+        light_color = 'UNKNOWN'
         if count < count1 - count:
-            text = 'GREEN'
+            light_color = 'GREEN'
             self.current_light = TrafficLight.GREEN
         else:
-            text = 'RED'
+            light_color = 'RED'
             self.current_light = TrafficLight.RED
 
-        filename = '/home/james/github/udacity/jmsktm/T2-CarND-Capstone/ros/src/tl_detector/images/img-{}.jpg'.format(str(int(time.time())))
+        text = '{} / {}'.format(self.now(), light_color)
+        filename = '/home/james/github/udacity/jmsktm/T2-CarND-Capstone/images/img-{}.jpg'.format(self.now_dashed())
         cv2.putText(image, text, (20,20), cv2.FONT_HERSHEY_SIMPLEX, 1, (255,255,255), 2, cv2.LINE_AA)
-        height, width, channels = image.shape
-        for box in boxes:
-            ymin, xmin, ymax, xmax = box
-            
-            xmin1 = int(xmin * width)
-            ymin1 = int(ymin * height)
-            xmax1 = int(xmax * width)
-            ymax1 = int(ymax * height)
-            self.log('ymin1: {}, ymin1: {}, ymax1: {}, xmax1: {}'.format(ymin1, xmin1, ymax1, xmax1))
-            cv2.rectangle(image,(xmin1, ymin1),(xmax1, ymax1), (0,0,255), 2)
-
+        
         cv2.imwrite(filename, image)
 
         return self.current_light

@@ -12,15 +12,19 @@ import tf
 import cv2
 import yaml
 import time
+from datetime import datetime
 
 STATE_COUNT_THRESHOLD = 3
 TEST_MODE_ENABLED = False
 
 class TLDetector(object):
 
+    def now(self):
+        return str(datetime.now().strftime('%I:%M:%S.%f'))
+
     def log(self, msg):
-        f = open("tl_detector.log","w+")
-        f.write(msg + "\n")
+        f = open("/home/james/github/udacity/jmsktm/T2-CarND-Capstone/master.log","w+")
+        f.write('{} [tl_detector]: {}\n'.format(self.now(), msg))
         f.close()
 
     def __init__(self):
@@ -150,10 +154,8 @@ class TLDetector(object):
         # return self.light_classifier.get_classification(cv_image)
         # For test mode, just return the light state
         if TEST_MODE_ENABLED:
-            self.log('TEST MODE ENABLED')
             classification = light.state
         else:
-            self.log('TEST MODE DISABLED')
             cv_image = self.bridge.imgmsg_to_cv2(self.camera_image, "bgr8")
             # cv2.imwrite(filename, cv_image)
 
@@ -196,9 +198,10 @@ class TLDetector(object):
                     closest_light = light
                     line_wp_idx = temp_wp_idx
 
+        self.log('Traffic light waypoint: {}, Current waypoint: {}'.format(line_wp_idx, car_wp_idx))
         if closest_light:
+            self.log('Approaching Traffic light. Detecting light state')
             state = self.get_light_state(closest_light)
-            self.log('Light_wp: ' + str(line_wp_idx) + ', Current_wp: ' + str(car_wp_idx) + ', State: ' + str(state))
             return line_wp_idx, state
 
         return -1, TrafficLight.UNKNOWN
