@@ -88,19 +88,33 @@ class TLClassifier(object):
         classes = np.squeeze(classes).astype(np.int32)
 
         min_score_thresh = .85
+        
+        red_count = 0
+        red_sum = 0.0
+        red_average = 0.0
+
+        green_count = 0
+        green_sum = 0.0
+        green_average = 0.0
+
+        total_count = 0
+        average = 1.0
         count = 0
-        count1 = 0
 
         height, width, channels = image.shape
 
         for i in range(boxes.shape[0]):
             if scores is None or scores[i] > min_score_thresh:
-                count1 += 1
+                total_count += 1
                 class_name = self.category_index[classes[i]]['name']
 
                 # Traffic light thing
                 if class_name == 'Red':
-                    count += 1
+                    red_count += 1
+                    red_sum += scores[i]
+                elif class_name == 'Green':
+                    green_count += 1
+                    green_sum += scores[i]
 
                 box = boxes[i]
                 ymin, xmin, ymax, xmax = box
@@ -114,18 +128,30 @@ class TLClassifier(object):
                 confidence = '{}%'.format(round(scores[i],2))
                 cv2.putText(image, confidence, (xmin1+10, ymin1+10), cv2.FONT_HERSHEY_SIMPLEX, 0.5, (255,255,255), 1, cv2.LINE_AA)
 
-        # print(count)
-        light_color = 'UNKNOWN'
-        if count < count1 - count:
-            light_color = 'GREEN'
-            self.current_light = TrafficLight.GREEN
-        else:
-            light_color = 'RED'
-            self.current_light = TrafficLight.RED
+        if red_count > 0:
+            red_average = red_sum / red_count
 
-        text = '{} / {}'.format(self.now(), light_color)
+        if green_count > 0:
+            green_average = green_sum / green_count
+
+        light_color = 'UNKNOWN'
+        self.current_light = TrafficLight.UNKNOWN
+        if red_count > 0 and red_average > min_score_thresh and red_average > green_average:
+            light_color = 'RED'
+            average = red_average
+            self.current_light = TrafficLight.RED
+        elif green_count > 0 and green_average > min_score_thresh and green_average > red_average:
+            light_color = 'GREEN'
+            average = green_average
+            self.current_light = TrafficLight.GREEN
+
+        text = '{} / {} ({})'.format(self.now(), light_color, round(average, 2))
         filename = '/home/james/github/udacity/jmsktm/T2-CarND-Capstone/images/img-{}.jpg'.format(self.now_dashed())
         cv2.putText(image, text, (20,20), cv2.FONT_HERSHEY_SIMPLEX, 1, (255,255,255), 2, cv2.LINE_AA)
+
+        self.log('RED    :: count: {}, sum: {}, avg: {})'.format(red_count, red_sum, red_average))
+        self.log('GREEN  :: count: {}, sum: {}, avg: {})'.format(green_count, green_sum, green_average))
+        self.log('DECISION ==> {}'.format(light_color))
         
         cv2.imwrite(filename, image)
 
