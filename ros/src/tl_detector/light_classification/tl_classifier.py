@@ -5,15 +5,13 @@ import rospy
 import tensorflow as tf
 from styx_msgs.msg import TrafficLight
 import time
+import json
 from datetime import datetime
 
 class TLClassifier(object):
 
     def now(self):
         return str(datetime.now().strftime('%I:%M:%S.%f'))
-
-    def now_dashed(self):
-        return str(datetime.now().strftime('%I-%M-%S-%f'))
 
     def log(self, msg):
         f = open("/home/james/github/udacity/jmsktm/T2-CarND-Capstone/master.log","w+")
@@ -60,7 +58,17 @@ class TLClassifier(object):
         self.detection_classes = self.detection_graph.get_tensor_by_name('detection_classes:0')
         self.num_detections = self.detection_graph.get_tensor_by_name('num_detections:0')
 
+    """
+    Sample data:
+    {"lights": {"green": {"count": 0, "sum": 0.0, "average": 0.0}, "final": {"color": "RED", "average": 0.99, "state": 0}, "red": {"count": 3, "sum": 2.98, "average": 0.99492553869883216}}, "boxes": [{"xmin": 375, "ymin": 101, "ymax": 279, "xmax": 462}, {"xmin": 731, "ymin": 107, "ymax": 291, "xmax": 800}, {"xmin": 21, "ymin": 95, "ymax": 277, "xmax": 105}], "filename": "/home/james/github/udacity/jmsktm/T2-CarND-Capstone/images/img-01-16-57-871316.jpg", "time": {"dashed": "01-16-57-871316", "colon": "01:16:57.871316"}}
+    """
     def get_classification(self, image):
+        current_time = datetime.now()
+        time_colon = str(current_time.strftime('%I:%M:%S.%f'))
+        time_dashed = str(current_time.strftime('%I-%M-%S-%f'))
+        result = { "time": { "colon": time_colon, "dashed": time_dashed } }
+        filename = '/home/james/github/udacity/jmsktm/T2-CarND-Capstone/images/img-{}.jpg'.format(result["time"]["dashed"])
+        result["filename"] = filename
         """Determines the color of the traffic light in the image
 
         Args:
@@ -103,6 +111,7 @@ class TLClassifier(object):
 
         height, width, channels = image.shape
 
+        arr = []
         for i in range(boxes.shape[0]):
             if scores is None or scores[i] > min_score_thresh:
                 total_count += 1
@@ -124,9 +133,12 @@ class TLClassifier(object):
                 xmax1 = int(xmax * width)
                 ymax1 = int(ymax * height)
                 cv2.rectangle(image,(xmin1, ymin1),(xmax1, ymax1), (0,0,255), 2)
+                arr.append({ "xmin": xmin1, "ymin": ymin1, "xmax": xmax1, "ymax": ymax1 })
 
                 confidence = '{}%'.format(round(scores[i],2))
                 cv2.putText(image, confidence, (xmin1+10, ymin1+10), cv2.FONT_HERSHEY_SIMPLEX, 0.5, (255,255,255), 1, cv2.LINE_AA)
+
+        result["boxes"] = arr
 
         if red_count > 0:
             red_average = red_sum / red_count
@@ -138,21 +150,23 @@ class TLClassifier(object):
         self.current_light = TrafficLight.UNKNOWN
         if red_count > 0 and red_average > min_score_thresh and red_average > green_average:
             light_color = 'RED'
-            average = red_average
+            red_sum = round(red_sum, 2)
+            average = round(red_average, 2)
             self.current_light = TrafficLight.RED
         elif green_count > 0 and green_average > min_score_thresh and green_average > red_average:
             light_color = 'GREEN'
-            average = green_average
+            green_sum = round(green_sum, 2)
+            average = round(green_average, 2)
             self.current_light = TrafficLight.GREEN
 
-        text = '{} / {} ({})'.format(self.now(), light_color, round(average, 2))
-        filename = '/home/james/github/udacity/jmsktm/T2-CarND-Capstone/images/img-{}.jpg'.format(self.now_dashed())
-        cv2.putText(image, text, (20,20), cv2.FONT_HERSHEY_SIMPLEX, 1, (255,255,255), 2, cv2.LINE_AA)
-
-        self.log('RED    :: count: {}, sum: {}, avg: {})'.format(red_count, red_sum, red_average))
-        self.log('GREEN  :: count: {}, sum: {}, avg: {})'.format(green_count, green_sum, green_average))
-        self.log('DECISION ==> {}'.format(light_color))
+        result["lights"] = {
+            "red": { "count": red_count, "sum": red_sum, "average": red_average },
+            "green": { "count": green_count, "sum": green_sum, "average": green_average },
+            "final": { "color": light_color, "average": average, "state": self.current_light }
+        }
+        # self.log(json.dumps(result))
         
-        cv2.imwrite(filename, image)
+        # cv2.imwrite(filename, image)
 
-        return self.current_light
+        # return self.current_light
+        return result

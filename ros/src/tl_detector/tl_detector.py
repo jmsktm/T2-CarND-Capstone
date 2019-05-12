@@ -12,6 +12,8 @@ import tf
 import cv2
 import yaml
 import time
+import json
+import copy
 from datetime import datetime
 
 STATE_COUNT_THRESHOLD = 3
@@ -172,6 +174,24 @@ class TLDetector(object):
 
         return classification
 
+    def write_image(self, data):
+        filename = data["filename"]
+        cv_image = self.bridge.imgmsg_to_cv2(self.camera_image, "bgr8")
+        dt = data["time"]["colon"]
+        light_color = data["lights"]["final"]["color"]
+        average = data["lights"]["final"]["average"]
+
+        for box in data["boxes"]:
+            xmin = box["xmin"]
+            ymin = box["ymin"]
+            xmax = box["xmax"]
+            ymax = box["ymax"]
+            cv2.rectangle(cv_image, (xmin, ymin), (xmax, ymax), (0, 0, 255), 2)
+
+        text = '{} / {} ({})'.format(dt, light_color, average)
+        cv2.putText(cv_image, text, (20, 20), cv2.FONT_HERSHEY_SIMPLEX, 1, (255,255,255), 2, cv2.LINE_AA)
+        cv2.imwrite(filename, cv_image)
+
     def process_traffic_lights(self):
         """Finds closest visible traffic light, if one exists, and determines its
             location and color
@@ -204,8 +224,10 @@ class TLDetector(object):
         self.log('Traffic light waypoint: {}, Current waypoint: {}'.format(line_wp_idx, car_wp_idx))
         if closest_light:
             self.log('Approaching Traffic light. Detecting light state')
-            state = self.get_light_state(closest_light)
-            return line_wp_idx, state
+            data = self.get_light_state(closest_light)
+            self.log(json.dumps(data))
+            self.write_image(data)
+            return line_wp_idx, data["lights"]["final"]["state"]
 
         return -1, TrafficLight.UNKNOWN
 

@@ -252,7 +252,11 @@ bool PurePursuit::verifyFollowing() const
 geometry_msgs::Twist PurePursuit::calcTwist(double curvature, double cmd_velocity) const
 {
   // verify whether vehicle is following the path
-  bool following_flag = verifyFollowing();
+  // bool following_flag = verifyFollowing();
+  
+  // Setting following_flag to false at every timestep so that
+  // waypoint follower will always steer the vehicle to follow the path.
+  bool following_flag = false;
   static double prev_angular_velocity = 0;
 
   geometry_msgs::Twist twist;
