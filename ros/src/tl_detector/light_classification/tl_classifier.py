@@ -4,9 +4,16 @@ import numpy as np
 import rospy
 import tensorflow as tf
 from styx_msgs.msg import TrafficLight
+import time
 
 
 class TLClassifier(object):
+
+    def log(self, msg):
+        f = open("tl_classifier.log","w+")
+        f.write(msg + "\n")
+        f.close()
+
     #def __init__(self):
     def __init__(self, model_file): 
         # TODO load classifier
@@ -48,6 +55,7 @@ class TLClassifier(object):
         self.num_detections = self.detection_graph.get_tensor_by_name('num_detections:0')
 
     def get_classification(self, image):
+        self.log('logging from classifier')
         """Determines the color of the traffic light in the image
 
         Args:
@@ -89,9 +97,27 @@ class TLClassifier(object):
                     count += 1
 
         # print(count)
+        text = '~'
         if count < count1 - count:
+            text = 'GREEN'
             self.current_light = TrafficLight.GREEN
         else:
+            text = 'RED'
             self.current_light = TrafficLight.RED
+
+        filename = '/home/james/github/udacity/jmsktm/T2-CarND-Capstone/ros/src/tl_detector/images/img-{}.jpg'.format(str(int(time.time())))
+        cv2.putText(image, text, (20,20), cv2.FONT_HERSHEY_SIMPLEX, 1, (255,255,255), 2, cv2.LINE_AA)
+        height, width, channels = image.shape
+        for box in boxes:
+            ymin, xmin, ymax, xmax = box
+            
+            xmin1 = int(xmin * width)
+            ymin1 = int(ymin * height)
+            xmax1 = int(xmax * width)
+            ymax1 = int(ymax * height)
+            self.log('ymin1: {}, ymin1: {}, ymax1: {}, xmax1: {}'.format(ymin1, xmin1, ymax1, xmax1))
+            cv2.rectangle(image,(xmin1, ymin1),(xmax1, ymax1), (0,0,255), 2)
+
+        cv2.imwrite(filename, image)
 
         return self.current_light

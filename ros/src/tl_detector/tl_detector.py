@@ -17,6 +17,12 @@ STATE_COUNT_THRESHOLD = 3
 TEST_MODE_ENABLED = False
 
 class TLDetector(object):
+
+    def log(self, msg):
+        f = open("tl_detector.log","w+")
+        f.write(msg + "\n")
+        f.close()
+
     def __init__(self):
         rospy.init_node('tl_detector')
 
@@ -80,7 +86,6 @@ class TLDetector(object):
         if self.ready:
             start = time.time();
             self.ready = False
-            rospy.loginfo('Not ready')
 
             self.has_image = True
             self.camera_image = msg
@@ -105,11 +110,8 @@ class TLDetector(object):
             self.state_count += 1
 
             self.ready = True
-            rospy.loginfo('Ready')
             end = time.time();
-
             duration = (end - start) * 1000
-            rospy.loginfo('Duration: ', str(duration))
 
     def get_closest_waypoint(self, x, y):
         """Identifies the closest path waypoint to the given position
@@ -148,9 +150,12 @@ class TLDetector(object):
         # return self.light_classifier.get_classification(cv_image)
         # For test mode, just return the light state
         if TEST_MODE_ENABLED:
+            self.log('TEST MODE ENABLED')
             classification = light.state
         else:
+            self.log('TEST MODE DISABLED')
             cv_image = self.bridge.imgmsg_to_cv2(self.camera_image, "bgr8")
+            # cv2.imwrite(filename, cv_image)
 
             # Get classification
             classification = self.light_classifier.get_classification(cv_image)
@@ -193,6 +198,7 @@ class TLDetector(object):
 
         if closest_light:
             state = self.get_light_state(closest_light)
+            self.log('Light_wp: ' + str(line_wp_idx) + ', Current_wp: ' + str(car_wp_idx) + ', State: ' + str(state))
             return line_wp_idx, state
 
         return -1, TrafficLight.UNKNOWN
