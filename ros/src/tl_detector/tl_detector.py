@@ -108,14 +108,17 @@ class TLDetector(object):
                 self.last_state = self.state
                 light_wp = light_wp if state == TrafficLight.RED else -1
                 self.last_wp = light_wp
+                self.log('Publish:: /traffic_waypoint index: {}'.format(self.last_wp))
                 self.upcoming_red_light_pub.publish(Int32(light_wp))
             else:
+                self.log('Publish:: /traffic_waypoint index: {}'.format(self.last_wp))
                 self.upcoming_red_light_pub.publish(Int32(self.last_wp))
             self.state_count += 1
 
             self.ready = True
             end = time.time();
             duration = (end - start) * 1000
+            self.log('Frame processing duration: {} ms'.format(duration))
 
     def get_closest_waypoint(self, x, y):
         """Identifies the closest path waypoint to the given position
