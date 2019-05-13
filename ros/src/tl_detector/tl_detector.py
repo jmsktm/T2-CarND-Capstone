@@ -185,8 +185,6 @@ class TLDetector(object):
         return classification
 
     def write_image(self, data):
-        self.log('Write image to file')
-        """
         if self.debug_mode:
             filename = data["filename"]
             cv_image = self.bridge.imgmsg_to_cv2(self.camera_image, "bgr8")
@@ -208,7 +206,6 @@ class TLDetector(object):
             text = '{} / {} ({})'.format(dt, light_color, average)
             cv2.putText(cv_image, text, (20, 20), cv2.FONT_HERSHEY_SIMPLEX, 1, (255,255,255), 2, cv2.LINE_AA)
             cv2.imwrite(filename, cv_image)
-            """
 
     def process_traffic_lights(self):
         """Finds closest visible traffic light, if one exists, and determines its

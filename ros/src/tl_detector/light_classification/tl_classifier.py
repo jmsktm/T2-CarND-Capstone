@@ -84,7 +84,8 @@ class TLClassifier(object):
         time_colon = str(current_time.strftime('%I:%M:%S.%f'))
         time_dashed = str(current_time.strftime('%I-%M-%S-%f'))
         result = { "time": { "colon": time_colon, "dashed": time_dashed } }
-        filename = '../../../images/img-{}.jpg'.format(result["time"]["dashed"]) # TODO: Un-hardcode this!
+
+        filename = os.path.join(dir, '../../../../images/img-{}.jpg'.format(result["time"]["dashed"]))
         result["filename"] = filename
         """Determines the color of the traffic light in the image
 
