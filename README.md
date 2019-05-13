@@ -1,90 +1,87 @@
-This is the project repo for the final project of the Udacity Self-Driving Car Nanodegree: Programming a Real Self-Driving Car. For more information about the project, see the project introduction [here](https://classroom.udacity.com/nanodegrees/nd013/parts/6047fe34-d93c-4f50-8336-b70ef10cb4b2/modules/e1a23b06-329a-4684-a717-ad476f0d8dff/lessons/462c933d-9f24-42d3-8bdc-a08a5fc866e4/concepts/5ab4b122-83e6-436d-850f-9f4d26627fd9).
+[//]: # (Image References)
+[arch_image]: ./resources/carla_architecture.png
+[vehicle]: ./resources/vehicle.jpg
 
-Please use **one** of the two installation options, either native **or** docker installation.
+# Udacity Self-Driving Car Engineer Nanodegree
 
-### Native Installation
+![][vehicle]
 
-* Be sure that your workstation is running Ubuntu 16.04 Xenial Xerus or Ubuntu 14.04 Trusty Tahir. [Ubuntu downloads can be found here](https://www.ubuntu.com/download/desktop).
-* If using a Virtual Machine to install Ubuntu, use the following configuration as minimum:
-  * 2 CPU
-  * 2 GB system memory
-  * 25 GB of free hard drive space
+## Team: Project Herbie
+<table>
+ <tr>
+    <th>Member</th>
+    <th>Email</th>
+    <th>&nbsp;</th>
+ </tr>
+ <tr>
+    <td>James Singh</td>
+    <td>james.singh@hotmail.com</td>
+    <td><img src="resources/james.jpg" width="150px" > </td>
+ </tr>
+ <tr>
+    <td>Emil Ibrahim</td>
+    <td>&nbsp;</td>
+    <td><img src="resources/emil.jpg" width="150px" > </td>
+ </tr>
+ <tr>
+    <td>Mariam Swetha George</td>
+    <td>mariam.george@nexteer.com</td>
+    <td><img src="resources/mariam.jpg" width="150px" > </td>
+ </tr>
+</table>
 
-  The Udacity provided virtual machine has ROS and Dataspeed DBW already installed, so you can skip the next two steps if you are using this.
+This is the Capstone Project for Udacity's Self-Driving Car NanoDegree Program. We as a team used ROS (Robotic Operating System) to implement several nodes that built out the core functionality of the autonomous vehicle system, including traffic light detection, control, and waypoint following. This software we developed will be tested on Carla, the Udacity Self Driving Car, which should be able to drive autonomously on a test track.
 
-* Follow these instructions to install ROS
-  * [ROS Kinetic](http://wiki.ros.org/kinetic/Installation/Ubuntu) if you have Ubuntu 16.04.
-  * [ROS Indigo](http://wiki.ros.org/indigo/Installation/Ubuntu) if you have Ubuntu 14.04.
-* [Dataspeed DBW](https://bitbucket.org/DataspeedInc/dbw_mkz_ros)
-  * Use this option to install the SDK on a workstation that already has ROS installed: [One Line SDK Install (binary)](https://bitbucket.org/DataspeedInc/dbw_mkz_ros/src/81e63fcc335d7b64139d7482017d6a97b405e250/ROS_SETUP.md?fileviewer=file-view-default)
-* Download the [Udacity Simulator](https://github.com/udacity/CarND-Capstone/releases).
+For setup and development contribution, refer to [CONTRIBUTING.md](./CONTRIBUTING.md)
 
-### Docker Installation
-[Install Docker](https://docs.docker.com/engine/installation/)
+## ROS Implementation
 
-Build the docker container
-```bash
-docker build . -t capstone
-```
+ROS is an open-source, meta-operating system used for controlling robotics. It provides the services one would expect from an operating system, including hardware abstraction, low-level device control, implementation of commonly-used functionality, message-passing between processes, and package management. ROS *processes* are represented as *nodes* in a graph structure, connected by edges called *topics*. ROS nodes can pass messages to one another through topics, make service calls to other nodes, provide a service for other nodes, or set or retrieve shared data from a communal database.
 
-Run the docker file
-```bash
-docker run -p 4567:4567 -v $PWD:/capstone -v /tmp/log:/root/.ros/ --rm -it capstone
-```
+ROS was used as the backbone for this project and the following is a system architecture diagram showing the ROS nodes and topics used in the project:
 
-### Port Forwarding
-To set up port forwarding, please refer to the [instructions from term 2](https://classroom.udacity.com/nanodegrees/nd013/parts/40f38239-66b6-46ec-ae68-03afd8a601c8/modules/0949fca6-b379-42af-a919-ee50aa304e6a/lessons/f758c44c-5e40-4e01-93b5-1a82aa4e044f/concepts/16cf4a78-4fc7-49e1-8621-3450ca938b77)
+![][arch_image]
 
-### Usage
+Each of the nodes were coded in Python for the project and all the code can be found in the `ros/src` directory.
+### Perception
 
-1. Clone the project repository
-```bash
-git clone https://github.com/udacity/CarND-Capstone.git
-```
+The perception subsystem is handled by two ROS nodes ``obstacle detection`` and ``traffic light detection``. For the purposes of this project, we focused on the traffic light detection node. This node subscribes to the following topics:
+* `/base_waypoints` : provides the complete list of waypoints for the course.
+* `/current_pose` : provides the vehicle's current location.
+* `/image_color` : provides an image stream from the car's camera which are then used to determine the traffic lights status
+* `/vehicle/traffic_lights` : provides the (x, y, z) coordinates of all traffic lights.
+This node publishes then the index of the waypoint for nearest upcoming red light's stop line to the topic: `/traffic_waypoint` which is then used by the planning subsystem to decide on a stop or not
 
-2. Install python dependencies
-```bash
-cd CarND-Capstone
-pip install -r requirements.txt
-```
-3. Make and run styx
-```bash
-cd ros
-catkin_make
-source devel/setup.sh
-roslaunch launch/styx.launch
-```
-4. Run the simulator
+### Planning
 
-### Real world testing
-1. Download [training bag](https://s3-us-west-1.amazonaws.com/udacity-selfdrivingcar/traffic_light_bag_file.zip) that was recorded on the Udacity self-driving car.
-2. Unzip the file
-```bash
-unzip traffic_light_bag_file.zip
-```
-3. Play the bag file
-```bash
-rosbag play -l traffic_light_bag_file/traffic_light_training.bag
-```
-4. Launch your project in site mode
-```bash
-cd CarND-Capstone/ros
-roslaunch launch/site.launch
-```
-5. Confirm that traffic light detection works on real life images
+The planning subsystem comprises of two ROS nodes `waypoint loader` and `waypoint updater`. The former was already provided as a package that loads the static waypoint data and publishes to `/base_waypoints` topic.
 
-### Other library/driver information
-Outside of `requirements.txt`, here is information on other driver/library versions used in the simulator and Carla:
+The `waypoint updater` node updates the target velocity property of each waypoint based on traffic light and obstacle detection data. This node subscribes to the following topics :
+* `/base_waypoints`
+* `/current_pose` 
+* `/traffic_waypoint`
+The node then publishes to the `final_waypoints` topic a list of waypoints ahead of the car with target velocities. This feeds into the control subsystem which ultimately executes maneuvers on the car.
 
-Specific to these libraries, the simulator grader and Carla use the following:
+### Control
 
-|        | Simulator | Carla  |
-| :-----------: |:-------------:| :-----:|
-| Nvidia driver | 384.130 | 384.130 |
-| CUDA | 8.0.61 | 8.0.61 |
-| cuDNN | 6.0.21 | 6.0.21 |
-| TensorRT | N/A | N/A |
-| OpenCV | 3.2.0-dev | 2.4.8 |
-| OpenMP | N/A | N/A |
+The control subsystm consists of two ROS nodes `DBW` and `waypoint follower`. Here too the later was already as a package from Autoware which subscribes to the `/final_waypoints` topic and then publishes the target linear and angular velocities of the vehicle in the form of twist commands to the `/twist_cmd` topic.
 
-We are working on a fix to line up the OpenCV versions between the two.
+The `DBW` node controls the drive-by-wire system in Carla which allows for electronic control of the throttle, brake and steering. This node subscribes to:
+* `/current_velocity` : provides linear velocity 
+* `/twist_cmd` : provides angular velocity
+* `/vehicle/dbw_enabled` : identifies if the car is under dbw or driver control
+The node utilizes a variety of controllers to then to provide the appropriate throttle, brake, and steering commands. These commands are then published to the appropriate topics: `/vehicle/throttle_cmd`, `/vehicle/brake_cmd` and`/vehicle/steering_cmd`
+
+
+### Code Flow
+
+Each of these nodes are associated with python code that allows us to control and modify their behavior. In order to get the ideal behavior for the car, we modified the code in the following manner:
+
+1. **Waypoint Updater node (Partial)**: Created a node that subscribes to `/base_waypoints` and `/current_pose` and publishes to `/final_waypoints`. The node will eventually  publish a fixed number of waypoints ahead of the vehicle with the correct target velocities, depending on traffic lights and obstacles. But for a first pass, to enable movement, we added subscription to the topics and also publish just a fixed number of waypoints currently ahead of the vehicle. This is achieved by modifiying the `ros/src/waypoint_updater/waypoint_updater.py`
+2. **DBW node**: Once messages are being published to `/final_waypoints`, the vehicle's waypoint follower will publish twist commands to the `/twist_cmd` topic. The `/twist_cmd` is then used by the `DBW` node which uses various controllers to provide appropriate throttle, brake, and steering commands. This is achieved by modifying the `ros/src/twist_controller/dbw_node.py` which implements the subscription and publishing. The code also imports the `Controller` class from `ros/src/twist_controller/twist_controller.py` which will be used for implementing the necessary controller for the car.
+3. **Traffic Light Detection node**: For intial testing purposes the `/vehicle/traffic_lights` topic provides realtime updates for the current location and status of all the traffic lights in the simulation. This is then used to implememt the complete `Waypoint Updater` node (Step 4) to ensure that the car stops appropriately and safely for the different traffic lights. This is achieved by setting the keyword `TEST_MODE_ENABLED` to be *True*.
+
+    Once that is done, the `tl_detector.py` and `tl_classifier.py` codes are further modified for:
+    * `tl_detector.py`: To detect the incoming camera images and the traffic light data. This code utilizes the light classifier to get a color prediction, and publishes the location of any upcoming red lights.
+    * `tl_classifier.py`: This code implements the traffic light classication which involves both the identification of traffic lights and then classify them with as *red*, *yellow* and *green*. Please refer to the traffic light detection section for more in-depth detail of the our algorithm
+4. **Waypoint Updater node (Full)**: Once traffic light detection has been implement, it is incorporated into the `waypoint updater`. Now we can, adjust the target velocities for the waypoints leading up to red traffic lights or other obstacles in order to bring the vehicle to a smooth and full stop. In addition to this a subscriber for the `/traffic_waypoint` topic.
