@@ -1,5 +1,4 @@
 ros/build/
 ros/devel/
 images/*
-ros/src/CMakeLists.txt
 master.log
