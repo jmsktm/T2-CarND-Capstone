@@ -137,7 +137,7 @@ Here's a link to the youtube video showing the car run on the simulator.
 Once traffic light detection has been implement, it is incorporated into the `waypoint updater`. Now we can, adjust the target velocities for the waypoints leading up to red traffic lights or other obstacles in order to bring the vehicle to a smooth and full stop. In addition to this a subscriber for the `/traffic_waypoint` topic.
 
 ## Hardware Used
-- **Processor**: AMD Ryzen Threadripper 2950X Processor (16 core, 33 threads)
+- **Processor**: AMD Ryzen Threadripper 2950X Processor (16 core, 32 threads)
 - **RAM**: 32 GB [16 GB x2] DDR4-3200 Mhz
 - **Storage**: M.2 PCIe NVMe SSD (Read: 3500MB/s; Write: 2300MB/s), EVO SSD (Read: 540MB/s, Write: 520MB/s)
 - **GPU**: NVIDIA GeForce RTX 2080 Ti - 11GB
