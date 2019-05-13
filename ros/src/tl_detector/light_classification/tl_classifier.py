@@ -14,7 +14,8 @@ class TLClassifier(object):
         return str(datetime.now().strftime('%I:%M:%S.%f'))
 
     def log(self, msg):
-        f = open("/home/james/github/udacity/jmsktm/T2-CarND-Capstone/master.log","w+") # TODO: Un-hardcode this!
+        rospy.loginfo(msg)
+        f = open("master.log","w+") # TODO: Un-hardcode this!
         f.write('{} [tl_classifier]: {}\n'.format(self.now(), msg))
         f.close()
 

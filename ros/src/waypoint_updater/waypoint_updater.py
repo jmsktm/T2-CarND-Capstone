@@ -7,7 +7,7 @@ from std_msgs.msg import Int32
 import math
 import numpy as np
 from scipy.spatial import KDTree
-
+from datetime import datetime
 
 '''
 This node will publish waypoints from the car's current position to some `x` distance ahead.
@@ -33,12 +33,14 @@ class WaypointUpdater(object):
         return str(datetime.now().strftime('%I:%M:%S.%f'))
 
     def log(self, msg):
-        f = open("/home/james/github/udacity/jmsktm/T2-CarND-Capstone/master.log","w+")
+        print(msg)
+        f = open("master.log","w+")
         f.write('{} [waypoint_updater]: {}\n'.format(self.now(), msg))
         f.close()
 
     def __init__(self):
         rospy.init_node('waypoint_updater')
+        self.log('Hello from waypoint updater')
 
         # Adding other member variables needed
         self.pose = None

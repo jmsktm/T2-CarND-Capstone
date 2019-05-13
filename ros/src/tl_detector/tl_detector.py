@@ -1,4 +1,5 @@
 #!/usr/bin/env python
+import sys
 import rospy
 from std_msgs.msg import Int32
 from geometry_msgs.msg import PoseStamped, Pose
@@ -25,50 +26,76 @@ class TLDetector(object):
         return str(datetime.now().strftime('%I:%M:%S.%f'))
 
     def log(self, msg):
-        if self.debug_mode:
-            f = open("/home/james/github/udacity/jmsktm/T2-CarND-Capstone/master.log","w+") # TODO: Un-hardcode this!
-            f.write('{} [tl_detector]: {}\n'.format(self.now(), msg))
-            f.close()
+
+        # if self.debug_mode:
+        # print('=================================>>> {}'.format(msg))
+        # rospy.loginfo('-------------------------------->>> {}'.format(msg))
+        f = open("master.log","a+") # TODO: Un-hardcode this!
+        f.write('{} [tl_detector]: {}\n'.format(self.now(), msg))
+        f.close()
 
     def __init__(self):
         rospy.init_node('tl_detector')
-
-        self.pose = None
-        self.waypoints = None
-        self.camera_image = None
-        self.lights = []
-        self.waypoints_2d = []
-        self.ready = True
-
-        sub1 = rospy.Subscriber('/current_pose', PoseStamped, self.pose_cb)
-        sub2 = rospy.Subscriber('/base_waypoints', Lane, self.waypoints_cb)
-
-        '''
-        /vehicle/traffic_lights provides you with the location of the traffic light in 3D map space and
-        helps you acquire an accurate ground truth data source for the traffic light
-        classifier by sending the current color state of all traffic lights in the
-        simulator. When testing on the vehicle, the color state will not be available. You'll need to
-        rely on the position of the light and the camera image to predict it.
-        '''
-        sub3 = rospy.Subscriber('/vehicle/traffic_lights', TrafficLightArray, self.traffic_cb)
-        sub6 = rospy.Subscriber('/image_color', Image, self.image_cb)
-
-        config_string = rospy.get_param("/traffic_light_config")
-        self.config = yaml.load(config_string)
-
-        self.upcoming_red_light_pub = rospy.Publisher('/traffic_waypoint', Int32, queue_size=1)
-
-        self.bridge = CvBridge()
         self.debug_mode = rospy.get_param('~debug_mode')
-        self.light_classifier = TLClassifier(rospy.get_param('~model_file'))
-        self.listener = tf.TransformListener()
+        
+        try:
+            q = open("pleasework.log","a+") # TODO: Un-hardcode this!
+            q.write('please work 3!!!\n')
+            q.close()
 
-        self.state = TrafficLight.UNKNOWN
-        self.last_state = TrafficLight.UNKNOWN
-        self.last_wp = -1
-        self.state_count = 0
+            q = open("pleasework.log","a+") # TODO: Un-hardcode this!
+            q.write('please work 4!!!\n')
+            q.close()
 
-        rospy.spin()
+            self.log('yo world!')
+            self.pose = None
+            self.waypoints = None
+            self.camera_image = None
+            self.lights = []
+            self.waypoints_2d = []
+            self.ready = True
+
+            sub1 = rospy.Subscriber('/current_pose', PoseStamped, self.pose_cb)
+            sub2 = rospy.Subscriber('/base_waypoints', Lane, self.waypoints_cb)
+
+            self.log('1')
+
+            '''
+            /vehicle/traffic_lights provides you with the location of the traffic light in 3D map space and
+            helps you acquire an accurate ground truth data source for the traffic light
+            classifier by sending the current color state of all traffic lights in the
+            simulator. When testing on the vehicle, the color state will not be available. You'll need to
+            rely on the position of the light and the camera image to predict it.
+            '''
+            sub3 = rospy.Subscriber('/vehicle/traffic_lights', TrafficLightArray, self.traffic_cb)
+            sub6 = rospy.Subscriber('/image_color', Image, self.image_cb)
+
+            self.log('2')
+            config_string = rospy.get_param("/traffic_light_config")
+            self.config = yaml.load(config_string)
+
+            self.log('3')
+            self.upcoming_red_light_pub = rospy.Publisher('/traffic_waypoint', Int32, queue_size=1)
+
+            self.log('4')
+            self.bridge = CvBridge()
+            self.log('5')
+            self.log('6')
+            self.light_classifier = TLClassifier(rospy.get_param('~model_file'))
+            self.log('7')
+            self.listener = tf.TransformListener()
+
+            self.log('8')
+            self.state = TrafficLight.UNKNOWN
+            self.last_state = TrafficLight.UNKNOWN
+            self.last_wp = -1
+            self.state_count = 0
+
+            self.log('9')
+            rospy.spin()
+        except Exception as e:
+            # rospy.logerr('XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX', sys.exc_info()[0])
+            print(e, sys.stderr)
 
     def pose_cb(self, msg):
         self.pose = msg
