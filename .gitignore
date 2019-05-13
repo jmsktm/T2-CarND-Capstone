@@ -1,2 +1,6 @@
-/ros/build/
-/ros/devel/
+ros/build/
+ros/devel/
+images/*
+master.log
+ros/src/CMakeLists.txt
+*.pyc

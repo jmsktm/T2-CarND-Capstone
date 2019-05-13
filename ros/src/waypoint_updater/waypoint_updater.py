@@ -7,7 +7,10 @@ from std_msgs.msg import Int32
 import math
 import numpy as np
 from scipy.spatial import KDTree
+from datetime import datetime
 
+import os
+dir = os.path.dirname(__file__)
 
 '''
 This node will publish waypoints from the car's current position to some `x` distance ahead.
@@ -28,6 +31,16 @@ FREQUENCY = 50 # 50Hz
 
 
 class WaypointUpdater(object):
+
+    def now(self):
+        return str(datetime.now().strftime('%I:%M:%S.%f'))
+
+    def log(self, msg):
+        filename = os.path.join(dir, '../../../master.log')
+        f = open(filename,"a+")
+        f.write('{} [waypoint_updater]: {}\n'.format(self.now(), msg))
+        f.close()
+
     def __init__(self):
         rospy.init_node('waypoint_updater')
 
