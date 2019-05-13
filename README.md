@@ -145,7 +145,7 @@ Once traffic light detection has been implement, it is incorporated into the `wa
 ## Setup
 - Ubuntu 16.04.6 LTS (Xenial Xerus)
 - ROS application running natively on the Ubuntu machine
-- Simular running natively on the Ubuntu machine
+- Simulator running natively on the Ubuntu machine
 - The simulator connects to the application over port 4567.
 
 ## Performance concerns & other discussions:
