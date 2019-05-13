@@ -17,8 +17,13 @@ import json
 import copy
 from datetime import datetime
 
+import os
+dir = os.path.dirname(__file__)
+
 STATE_COUNT_THRESHOLD = 3
 TEST_MODE_ENABLED = False
+DEBUG_MODE_ENABLED = True
+DEBUG_MODE_DISABLED = False
 
 class TLDetector(object):
 
@@ -26,28 +31,16 @@ class TLDetector(object):
         return str(datetime.now().strftime('%I:%M:%S.%f'))
 
     def log(self, msg):
-
-        # if self.debug_mode:
-        # print('=================================>>> {}'.format(msg))
-        # rospy.loginfo('-------------------------------->>> {}'.format(msg))
-        f = open("master.log","a+") # TODO: Un-hardcode this!
+        filename = os.path.join(dir, '../../../master.log')
+        f = open(filename,"a+")
         f.write('{} [tl_detector]: {}\n'.format(self.now(), msg))
         f.close()
 
     def __init__(self):
         rospy.init_node('tl_detector')
-        self.debug_mode = rospy.get_param('~debug_mode')
+        self.debug_mode = DEBUG_MODE_ENABLED
         
         try:
-            q = open("pleasework.log","a+") # TODO: Un-hardcode this!
-            q.write('please work 3!!!\n')
-            q.close()
-
-            q = open("pleasework.log","a+") # TODO: Un-hardcode this!
-            q.write('please work 4!!!\n')
-            q.close()
-
-            self.log('yo world!')
             self.pose = None
             self.waypoints = None
             self.camera_image = None
@@ -57,8 +50,6 @@ class TLDetector(object):
 
             sub1 = rospy.Subscriber('/current_pose', PoseStamped, self.pose_cb)
             sub2 = rospy.Subscriber('/base_waypoints', Lane, self.waypoints_cb)
-
-            self.log('1')
 
             '''
             /vehicle/traffic_lights provides you with the location of the traffic light in 3D map space and
@@ -70,31 +61,22 @@ class TLDetector(object):
             sub3 = rospy.Subscriber('/vehicle/traffic_lights', TrafficLightArray, self.traffic_cb)
             sub6 = rospy.Subscriber('/image_color', Image, self.image_cb)
 
-            self.log('2')
             config_string = rospy.get_param("/traffic_light_config")
             self.config = yaml.load(config_string)
 
-            self.log('3')
             self.upcoming_red_light_pub = rospy.Publisher('/traffic_waypoint', Int32, queue_size=1)
 
-            self.log('4')
             self.bridge = CvBridge()
-            self.log('5')
-            self.log('6')
             self.light_classifier = TLClassifier(rospy.get_param('~model_file'))
-            self.log('7')
             self.listener = tf.TransformListener()
 
-            self.log('8')
             self.state = TrafficLight.UNKNOWN
             self.last_state = TrafficLight.UNKNOWN
             self.last_wp = -1
             self.state_count = 0
 
-            self.log('9')
             rospy.spin()
         except Exception as e:
-            # rospy.logerr('XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX', sys.exc_info()[0])
             print(e, sys.stderr)
 
     def pose_cb(self, msg):
@@ -203,6 +185,8 @@ class TLDetector(object):
         return classification
 
     def write_image(self, data):
+        self.log('Write image to file')
+        """
         if self.debug_mode:
             filename = data["filename"]
             cv_image = self.bridge.imgmsg_to_cv2(self.camera_image, "bgr8")
@@ -224,6 +208,7 @@ class TLDetector(object):
             text = '{} / {} ({})'.format(dt, light_color, average)
             cv2.putText(cv_image, text, (20, 20), cv2.FONT_HERSHEY_SIMPLEX, 1, (255,255,255), 2, cv2.LINE_AA)
             cv2.imwrite(filename, cv_image)
+            """
 
     def process_traffic_lights(self):
         """Finds closest visible traffic light, if one exists, and determines its
@@ -256,7 +241,6 @@ class TLDetector(object):
 
         self.log('Traffic light waypoint: {}, Current waypoint: {}'.format(line_wp_idx, car_wp_idx))
         if closest_light:
-            self.log('Approaching Traffic light. Detecting light state')
             data = self.get_light_state(closest_light)
             data["waypoints"] = {
                 "traffic_light": line_wp_idx,

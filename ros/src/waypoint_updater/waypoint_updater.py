@@ -9,6 +9,9 @@ import numpy as np
 from scipy.spatial import KDTree
 from datetime import datetime
 
+import os
+dir = os.path.dirname(__file__)
+
 '''
 This node will publish waypoints from the car's current position to some `x` distance ahead.
 As mentioned in the doc, you should ideally first implement a version which does not care
@@ -33,14 +36,13 @@ class WaypointUpdater(object):
         return str(datetime.now().strftime('%I:%M:%S.%f'))
 
     def log(self, msg):
-        print(msg)
-        f = open("master.log","w+")
+        filename = os.path.join(dir, '../../../master.log')
+        f = open(filename,"a+")
         f.write('{} [waypoint_updater]: {}\n'.format(self.now(), msg))
         f.close()
 
     def __init__(self):
         rospy.init_node('waypoint_updater')
-        self.log('Hello from waypoint updater')
 
         # Adding other member variables needed
         self.pose = None

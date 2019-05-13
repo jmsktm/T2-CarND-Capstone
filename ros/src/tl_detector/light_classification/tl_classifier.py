@@ -8,14 +8,17 @@ import time
 import json
 from datetime import datetime
 
+import os
+dir = os.path.dirname(__file__)
+
 class TLClassifier(object):
 
     def now(self):
         return str(datetime.now().strftime('%I:%M:%S.%f'))
 
     def log(self, msg):
-        rospy.loginfo(msg)
-        f = open("master.log","w+") # TODO: Un-hardcode this!
+        filename = os.path.join(dir, '../../../../master.log')
+        f = open(filename, 'a+')
         f.write('{} [tl_classifier]: {}\n'.format(self.now(), msg))
         f.close()
 
@@ -81,7 +84,7 @@ class TLClassifier(object):
         time_colon = str(current_time.strftime('%I:%M:%S.%f'))
         time_dashed = str(current_time.strftime('%I-%M-%S-%f'))
         result = { "time": { "colon": time_colon, "dashed": time_dashed } }
-        filename = '/home/james/github/udacity/jmsktm/T2-CarND-Capstone/images/img-{}.jpg'.format(result["time"]["dashed"]) # TODO: Un-hardcode this!
+        filename = '../../../images/img-{}.jpg'.format(result["time"]["dashed"]) # TODO: Un-hardcode this!
         result["filename"] = filename
         """Determines the color of the traffic light in the image
 
