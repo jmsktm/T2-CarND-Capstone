@@ -123,8 +123,8 @@ We are constructing a JSON object constructed on the basis of above information 
 
 Here are some image files that were written to the `images` folder showing the timestamp the image was received by the application, the label for the detected image, the bounding boxes, the class of the identified image (Red, Yellow, Green, Unknown), and a confidence (between 0.0 and 1.0).
 
-<img src="resources/img-01-03-30-770622.jpg" >
-<img src="resources/img-01-04-23-096548.jpg" >
+<img src="resources/img-01-03-30-770622.jpg" width="450px" >
+<img src="resources/img-01-04-23-096548.jpg" width="450px" >
 
 The below GIF file was constructed from the processed images, and depicts the image seen from the car's camera (In this case, the camera in the simulation).  
 
@@ -135,9 +135,9 @@ Here's a link to the youtube video showing the car run on the simulator.
 
 Also, here are some gif clips of the traffic light detection working against the provided [ROS bag](https://drive.google.com/uc?id=0B2_h37bMVw3iYkdJTlRSUlJIamM&export=download):
 
-<img src="resources/just_traffic_light.gif" width="450px" >
+<img src="resources/just_traffic_light.gif" >
 
-<img src="resources/loop_with_traffic_light.gif" width="450px" >
+<img src="resources/loop_with_traffic_light.gif" >
 
 ### **Waypoint Updater node (Full)**
 Once traffic light detection has been implement, it is incorporated into the `waypoint updater`. Now we can, adjust the target velocities for the waypoints leading up to red traffic lights or other obstacles in order to bring the vehicle to a smooth and full stop. In addition to this a subscriber for the `/traffic_waypoint` topic.
