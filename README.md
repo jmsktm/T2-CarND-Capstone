@@ -123,8 +123,8 @@ We are constructing a JSON object constructed on the basis of above information 
 
 Here are some image files that were written to the `images` folder showing the timestamp the image was received by the application, the label for the detected image, the bounding boxes, the class of the identified image (Red, Yellow, Green, Unknown), and a confidence (between 0.0 and 1.0).
 
-<img src="resources/img-01-03-30-770622.jpg" width="450px" >
-<img src="resources/img-01-04-23-096548.jpg" width="450px" >
+<img src="resources/img-01-03-30-770622.jpg" >
+<img src="resources/img-01-04-23-096548.jpg" >
 
 The below GIF file was constructed from the processed images, and depicts the image seen from the car's camera (In this case, the camera in the simulation).  
 
