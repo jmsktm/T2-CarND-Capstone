@@ -113,7 +113,7 @@ class TLClassifier(object):
         scores = np.squeeze(scores)
         classes = np.squeeze(classes).astype(np.int32)
 
-        min_score_thresh = .85
+        min_score_thresh = .70
         
         red_count = 0
         red_sum = 0.0
