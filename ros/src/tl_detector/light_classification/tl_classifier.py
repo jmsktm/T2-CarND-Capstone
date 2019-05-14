@@ -136,7 +136,7 @@ class TLClassifier(object):
                 class_name = self.category_index[classes[i]]['name']
 
                 # Traffic light thing
-                if class_name == 'Red':
+                if class_name == 'Red' or class_name == 'Yellow':
                     red_count += 1
                     red_sum += scores[i]
                 elif class_name == 'Green':

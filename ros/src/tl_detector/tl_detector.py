@@ -198,9 +198,15 @@ class TLDetector(object):
                 xmax = box["xmax"]
                 ymax = box["ymax"]
                 score = box["score"]
-                cv2.rectangle(cv_image, (xmin, ymin), (xmax, ymax), (0, 0, 255), 2)
 
-                confidence = '{}%'.format(score)
+                bounding_box_color = (255, 255, 255)
+                if light_color == 'RED':
+                    bounding_box_color = (0, 0, 255)
+                elif light_color == 'GREEN':
+                    bounding_box_color = (0, 255, 0)
+                cv2.rectangle(cv_image, (xmin, ymin), (xmax, ymax), bounding_box_color, 3)
+
+                confidence = '{}'.format(score)
                 cv2.putText(cv_image, confidence, (xmin+10, ymin+10), cv2.FONT_HERSHEY_SIMPLEX, 0.5, (255,255,255), 1, cv2.LINE_AA)
 
             text = '{} / {} ({})'.format(dt, light_color, average)
